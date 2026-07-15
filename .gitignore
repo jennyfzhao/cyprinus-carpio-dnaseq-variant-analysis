@@ -1,0 +1,58 @@
+# macOS
+.DS_Store
+
+# local environments and caches
+.cache/
+.local/
+.micromamba/
+.conda/
+__pycache__/
+*.pyc
+.Rhistory
+.RData
+
+# downloaded raw sequencing data
+data/
+*.sra
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+
+# reference genomes and indexes generated during reproduction
+references/*.fa
+references/*.fasta
+references/*.fna
+references/*.fa.gz
+references/*.fasta.gz
+references/*.fna.gz
+references/*.fai
+references/*.dict
+references/*.amb
+references/*.ann
+references/*.bwt
+references/*.pac
+references/*.sa
+references/bowtie2/
+references/carp_refseq/*.gff.gz
+references/carp_refseq/*.fna.gz
+
+# alignment intermediates
+*.sam
+*.bam
+*.bai
+*.cram
+*.crai
+results/picard/*.bam
+results/picard/*.bai
+
+# large GATK intermediates
+results/gatk/
+results/gatk_chrA20/gvcf/
+results/gatk_chrA20/cohort/
+*.g.vcf.gz
+*.g.vcf.gz.tbi
+results/gatk_chrA20/filtered/*.filtered.vcf.gz*
+
+# tool temp/log clutter
+*.tmp

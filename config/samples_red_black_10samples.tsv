@@ -1,0 +1,11 @@
+run_accession	sample_name	color	organism	bioproject	study	layout	strategy	approx_sra_gb	approx_bases
+SRR18681855	red_19	red	Cyprinus carpio	PRJNA824207	Genetic mechanism of the reddish color of Hebao red carp	paired	WGS	4.92	8350499400
+SRR18681856	red_18	red	Cyprinus carpio	PRJNA824207	Genetic mechanism of the reddish color of Hebao red carp	paired	WGS	4.88	8350466100
+SRR18681857	red_17	red	Cyprinus carpio	PRJNA824207	Genetic mechanism of the reddish color of Hebao red carp	paired	WGS	5.01	8395178400
+SRR18681858	red_16	red	Cyprinus carpio	PRJNA824207	Genetic mechanism of the reddish color of Hebao red carp	paired	WGS	4.94	8386462500
+SRR18681859	red_15	red	Cyprinus carpio	PRJNA824207	Genetic mechanism of the reddish color of Hebao red carp	paired	WGS	4.92	8399848500
+SRR18681860	black_9	black	Cyprinus carpio	PRJNA824207	Genetic mechanism of the reddish color of Hebao red carp	paired	WGS	4.94	8350453800
+SRR18681861	black_8	black	Cyprinus carpio	PRJNA824207	Genetic mechanism of the reddish color of Hebao red carp	paired	WGS	4.90	8349931200
+SRR18681862	black_7	black	Cyprinus carpio	PRJNA824207	Genetic mechanism of the reddish color of Hebao red carp	paired	WGS	4.90	8349195300
+SRR18681863	black_6	black	Cyprinus carpio	PRJNA824207	Genetic mechanism of the reddish color of Hebao red carp	paired	WGS	4.99	8352593400
+SRR18681864	black_5	black	Cyprinus carpio	PRJNA824207	Genetic mechanism of the reddish color of Hebao red carp	paired	WGS	5.06	8351463600

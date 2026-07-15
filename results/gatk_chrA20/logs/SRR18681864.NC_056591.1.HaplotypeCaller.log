@@ -1,0 +1,192 @@
+Using GATK jar /Users/jennyfzhao/Work/task/2026-06-15_dnaseq/.micromamba/envs/koi-dnaseq/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar
+Running:
+    java -Dsamjdk.use_async_io_read_samtools=false -Dsamjdk.use_async_io_write_samtools=true -Dsamjdk.use_async_io_write_tribble=false -Dsamjdk.compression_level=2 -jar /Users/jennyfzhao/Work/task/2026-06-15_dnaseq/.micromamba/envs/koi-dnaseq/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar HaplotypeCaller -R references/carp.fa -I results/picard/SRR18681864.dedup.bam -O results/gatk_chrA20/gvcf/SRR18681864.NC_056591.1.g.vcf.gz -ERC GVCF -L NC_056591.1
+01:28:52.046 INFO  NativeLibraryLoader - Loading libgkl_compression.dylib from jar:file:/Users/jennyfzhao/Work/task/2026-06-15_dnaseq/.micromamba/envs/koi-dnaseq/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_compression.dylib
+01:28:52.051 WARN  NativeLibraryLoader - Unable to load libgkl_compression.dylib from native/libgkl_compression.dylib (/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_compression12584000873925590456.dylib: dlopen(/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_compression12584000873925590456.dylib, 0x0001): tried: '/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_compression12584000873925590456.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64e.v1' or 'arm64' or 'arm64')), '/System/Volumes/Preboot/Cryptexes/OS/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_compression12584000873925590456.dylib' (no such file), '/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_compression12584000873925590456.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64e.v1' or 'arm64' or 'arm64')))
+01:28:52.053 INFO  NativeLibraryLoader - Loading libgkl_compression.dylib from jar:file:/Users/jennyfzhao/Work/task/2026-06-15_dnaseq/.micromamba/envs/koi-dnaseq/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_compression.dylib
+01:28:52.055 WARN  NativeLibraryLoader - Unable to load libgkl_compression.dylib from native/libgkl_compression.dylib (/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_compression11756214151617120726.dylib: dlopen(/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_compression11756214151617120726.dylib, 0x0001): tried: '/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_compression11756214151617120726.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64e.v1' or 'arm64' or 'arm64')), '/System/Volumes/Preboot/Cryptexes/OS/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_compression11756214151617120726.dylib' (no such file), '/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_compression11756214151617120726.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64e.v1' or 'arm64' or 'arm64')))
+01:28:52.096 INFO  HaplotypeCaller - ------------------------------------------------------------
+01:28:52.097 INFO  HaplotypeCaller - The Genome Analysis Toolkit (GATK) v4.6.2.0
+01:28:52.097 INFO  HaplotypeCaller - For support and documentation go to https://software.broadinstitute.org/gatk/
+01:28:52.097 INFO  HaplotypeCaller - Executing as jennyfzhao@Jennys-MacBook-Pro.local on Mac OS X v26.5.2 aarch64
+01:28:52.097 INFO  HaplotypeCaller - Java runtime: OpenJDK 64-Bit Server VM v17.0.18+8-LTS
+01:28:52.098 INFO  HaplotypeCaller - Start Date/Time: July 14, 2026 at 1:28:52 AM EDT
+01:28:52.098 INFO  HaplotypeCaller - ------------------------------------------------------------
+01:28:52.098 INFO  HaplotypeCaller - ------------------------------------------------------------
+01:28:52.098 INFO  HaplotypeCaller - HTSJDK Version: 4.2.0
+01:28:52.098 INFO  HaplotypeCaller - Picard Version: 3.4.0
+01:28:52.098 INFO  HaplotypeCaller - Built for Spark Version: 3.5.0
+01:28:52.099 INFO  HaplotypeCaller - HTSJDK Defaults.COMPRESSION_LEVEL : 2
+01:28:52.099 INFO  HaplotypeCaller - HTSJDK Defaults.USE_ASYNC_IO_READ_FOR_SAMTOOLS : false
+01:28:52.099 INFO  HaplotypeCaller - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_SAMTOOLS : true
+01:28:52.099 INFO  HaplotypeCaller - HTSJDK Defaults.USE_ASYNC_IO_WRITE_FOR_TRIBBLE : false
+01:28:52.099 INFO  HaplotypeCaller - Deflater: JdkDeflater
+01:28:52.099 INFO  HaplotypeCaller - Inflater: JdkInflater
+01:28:52.099 INFO  HaplotypeCaller - GCS max retries/reopens: 20
+01:28:52.099 INFO  HaplotypeCaller - Requester pays: disabled
+01:28:52.099 INFO  HaplotypeCaller - Initializing engine
+01:28:52.177 WARN  IntelInflaterFactory - IntelInflater is not supported, using Java.util.zip.Inflater
+01:28:52.178 WARN  IntelInflaterFactory - IntelInflater is not supported, using Java.util.zip.Inflater
+01:28:52.226 INFO  IntervalArgumentCollection - Processing 27589077 bp from intervals
+01:28:52.233 INFO  HaplotypeCaller - Done initializing engine
+01:28:52.233 INFO  HaplotypeCallerEngine - Tool is in reference confidence mode and the annotation, the following changes will be made to any specified annotations: 'StrandBiasBySample' will be enabled. 'ChromosomeCounts', 'FisherStrand', 'StrandOddsRatio' and 'QualByDepth' annotations have been disabled
+01:28:52.271 INFO  NativeLibraryLoader - Loading libgkl_utils.dylib from jar:file:/Users/jennyfzhao/Work/task/2026-06-15_dnaseq/.micromamba/envs/koi-dnaseq/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_utils.dylib
+01:28:52.271 WARN  NativeLibraryLoader - Unable to load libgkl_utils.dylib from native/libgkl_utils.dylib (/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils9089988981278850610.dylib: dlopen(/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils9089988981278850610.dylib, 0x0001): tried: '/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils9089988981278850610.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64e.v1' or 'arm64' or 'arm64')), '/System/Volumes/Preboot/Cryptexes/OS/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils9089988981278850610.dylib' (no such file), '/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils9089988981278850610.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64e.v1' or 'arm64' or 'arm64')))
+01:28:52.271 WARN  IntelSmithWaterman - Intel GKL Utils not loaded
+01:28:52.272 INFO  SmithWatermanAligner - AVX accelerated SmithWaterman implementation is not supported, falling back to the Java implementation
+01:28:52.273 INFO  HaplotypeCallerEngine - Standard Emitting and Calling confidence set to -0.0 for reference-model confidence output
+01:28:52.273 INFO  HaplotypeCallerEngine - All sites annotated with PLs forced to true for reference-model confidence output
+01:28:52.276 INFO  NativeLibraryLoader - Loading libgkl_utils.dylib from jar:file:/Users/jennyfzhao/Work/task/2026-06-15_dnaseq/.micromamba/envs/koi-dnaseq/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_utils.dylib
+01:28:52.277 WARN  NativeLibraryLoader - Unable to load libgkl_utils.dylib from native/libgkl_utils.dylib (/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils1740948937698456527.dylib: dlopen(/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils1740948937698456527.dylib, 0x0001): tried: '/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils1740948937698456527.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64e.v1' or 'arm64' or 'arm64')), '/System/Volumes/Preboot/Cryptexes/OS/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils1740948937698456527.dylib' (no such file), '/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils1740948937698456527.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64e.v1' or 'arm64' or 'arm64')))
+01:28:52.277 WARN  IntelPairHmm - Intel GKL Utils not loaded
+01:28:52.277 INFO  PairHMM - OpenMP multi-threaded AVX-accelerated native PairHMM implementation is not supported
+01:28:52.277 INFO  NativeLibraryLoader - Loading libgkl_utils.dylib from jar:file:/Users/jennyfzhao/Work/task/2026-06-15_dnaseq/.micromamba/envs/koi-dnaseq/share/gatk4-4.6.2.0-0/gatk-package-4.6.2.0-local.jar!/com/intel/gkl/native/libgkl_utils.dylib
+01:28:52.277 WARN  NativeLibraryLoader - Unable to load libgkl_utils.dylib from native/libgkl_utils.dylib (/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils5809267642845602856.dylib: dlopen(/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils5809267642845602856.dylib, 0x0001): tried: '/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils5809267642845602856.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64e.v1' or 'arm64' or 'arm64')), '/System/Volumes/Preboot/Cryptexes/OS/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils5809267642845602856.dylib' (no such file), '/private/var/folders/vl/k_bf39xn4s57bs_9qbflf_8m0000gn/T/libgkl_utils5809267642845602856.dylib' (mach-o file, but is an incompatible architecture (have 'x86_64', need 'arm64e' or 'arm64e.v1' or 'arm64' or 'arm64')))
+01:28:52.277 WARN  IntelPairHmm - Intel GKL Utils not loaded
+01:28:52.278 WARN  PairHMM - ***WARNING: Machine does not have the AVX instruction set support needed for the accelerated AVX PairHmm. Falling back to the MUCH slower LOGLESS_CACHING implementation!
+01:28:52.278 WARN  IntelDeflaterFactory - Intel Deflater not supported, using Java.util.zip.Deflater
+01:28:52.309 INFO  ProgressMeter - Starting traversal
+01:28:52.309 INFO  ProgressMeter -        Current Locus  Elapsed Minutes     Regions Processed   Regions/Minute
+01:28:52.485 WARN  InbreedingCoeff - InbreedingCoeff will not be calculated at position NC_056591.1:10564 and possibly subsequent; at least 10 samples must have called genotypes
+01:28:52.959 WARN  DepthPerSampleHC - org.broadinstitute.hellbender.tools.walkers.annotator.DepthPerSampleHC$$Lambda$575/0x000000040162fae8@17726998
+01:28:52.959 WARN  StrandBiasBySample - org.broadinstitute.hellbender.tools.walkers.annotator.StrandBiasBySample$$Lambda$576/0x000000040162fd18@149de55c
+01:29:13.312 INFO  ProgressMeter -   NC_056591.1:295975              0.4                  1950           5570.6
+01:29:23.634 INFO  ProgressMeter -   NC_056591.1:511134              0.5                  3560           6818.8
+01:29:33.913 INFO  ProgressMeter -   NC_056591.1:657418              0.7                  4700           6778.2
+01:29:44.003 INFO  ProgressMeter -   NC_056591.1:855537              0.9                  6120           7103.3
+01:29:54.018 INFO  ProgressMeter -   NC_056591.1:980738              1.0                  7010           6815.9
+01:30:04.058 INFO  ProgressMeter -  NC_056591.1:1099199              1.2                  7900           6606.4
+01:30:14.346 INFO  ProgressMeter -  NC_056591.1:1139441              1.4                  8190           5990.0
+01:30:25.030 INFO  ProgressMeter -  NC_056591.1:1164703              1.5                  8380           5422.7
+01:30:35.475 INFO  ProgressMeter -  NC_056591.1:1192895              1.7                  8590           4995.8
+01:30:45.954 INFO  ProgressMeter -  NC_056591.1:1227082              1.9                  8840           4667.2
+01:31:02.275 INFO  ProgressMeter -  NC_056591.1:1235092              2.2                  8900           4108.8
+01:31:12.286 INFO  ProgressMeter -  NC_056591.1:1422094              2.3                 10280           4406.4
+01:31:22.345 INFO  ProgressMeter -  NC_056591.1:1640128              2.5                 11860           4742.9
+01:31:32.513 INFO  ProgressMeter -  NC_056591.1:2014717              2.7                 14180           5310.7
+01:31:42.624 INFO  ProgressMeter -  NC_056591.1:2153548              2.8                 15210           5358.3
+01:32:02.406 INFO  ProgressMeter -  NC_056591.1:2243655              3.2                 15910           5021.6
+01:32:12.476 INFO  ProgressMeter -  NC_056591.1:2443956              3.3                 17400           5215.6
+01:32:22.481 INFO  ProgressMeter -  NC_056591.1:2901439              3.5                 20560           5869.5
+01:32:32.542 INFO  ProgressMeter -  NC_056591.1:3775071              3.7                 25140           6849.1
+01:32:42.610 INFO  ProgressMeter -  NC_056591.1:3972869              3.8                 26660           6945.7
+01:32:56.449 INFO  ProgressMeter -  NC_056591.1:4105854              4.1                 27690           6805.1
+01:33:07.066 INFO  ProgressMeter -  NC_056591.1:4167784              4.2                 28200           6641.6
+01:33:17.966 INFO  ProgressMeter -  NC_056591.1:4215883              4.4                 28580           6454.9
+01:33:28.046 INFO  ProgressMeter -  NC_056591.1:4272457              4.6                 29020           6314.7
+01:33:38.300 INFO  ProgressMeter -  NC_056591.1:4323053              4.8                 29410           6170.1
+01:33:57.413 INFO  ProgressMeter -  NC_056591.1:4358834              5.1                 29690           5838.7
+01:34:07.478 INFO  ProgressMeter -  NC_056591.1:4863065              5.3                 32720           6229.0
+01:34:17.487 INFO  ProgressMeter -  NC_056591.1:5147393              5.4                 34940           6446.9
+01:34:27.493 INFO  ProgressMeter -  NC_056591.1:5724215              5.6                 38690           6925.7
+01:34:37.553 INFO  ProgressMeter -  NC_056591.1:5938857              5.8                 40310           7005.5
+01:34:59.212 INFO  ProgressMeter -  NC_056591.1:6123470              6.1                 41730           6824.1
+01:35:09.253 INFO  ProgressMeter -  NC_056591.1:6369500              6.3                 43580           6936.8
+01:35:19.298 INFO  ProgressMeter -  NC_056591.1:6673202              6.4                 45730           7090.1
+01:35:29.407 INFO  ProgressMeter -  NC_056591.1:6912008              6.6                 47610           7193.7
+01:35:39.466 INFO  ProgressMeter -  NC_056591.1:7210715              6.8                 49700           7324.0
+01:36:00.299 INFO  ProgressMeter -  NC_056591.1:7365973              7.1                 50970           7145.5
+01:36:10.360 INFO  ProgressMeter -  NC_056591.1:8103775              7.3                 55210           7562.1
+01:36:20.547 INFO  ProgressMeter -  NC_056591.1:8858692              7.5                 59320           7940.4
+01:36:30.562 INFO  ProgressMeter -  NC_056591.1:9563705              7.6                 63070           8257.9
+01:36:40.657 INFO  ProgressMeter -  NC_056591.1:9841212              7.8                 65250           8359.2
+01:37:00.448 INFO  ProgressMeter -  NC_056591.1:9905663              8.1                 65730           8079.3
+01:37:10.528 INFO  ProgressMeter -  NC_056591.1:9986477              8.3                 66380           7994.1
+01:37:21.387 INFO  ProgressMeter - NC_056591.1:10042854              8.5                 66710           7862.4
+01:37:31.961 INFO  ProgressMeter - NC_056591.1:10079445              8.7                 66970           7732.5
+01:37:42.019 INFO  ProgressMeter - NC_056591.1:10112454              8.8                 67240           7616.3
+01:38:03.438 INFO  ProgressMeter - NC_056591.1:10122187              9.2                 67320           7329.0
+01:38:13.439 INFO  ProgressMeter - NC_056591.1:10609313              9.4                 70360           7523.4
+01:38:23.577 INFO  ProgressMeter - NC_056591.1:11097857              9.5                 73470           7716.5
+01:38:33.576 INFO  ProgressMeter - NC_056591.1:11328110              9.7                 75290           7771.6
+01:38:43.735 INFO  ProgressMeter - NC_056591.1:11549604              9.9                 77060           7817.7
+01:38:55.761 INFO  ProgressMeter - NC_056591.1:11647715             10.1                 77810           7736.5
+01:39:05.812 INFO  ProgressMeter - NC_056591.1:11865193             10.2                 79530           7778.0
+01:39:16.202 INFO  ProgressMeter - NC_056591.1:12076079             10.4                 81240           7812.9
+01:39:26.204 INFO  ProgressMeter - NC_056591.1:12524571             10.6                 83960           7947.1
+01:39:36.209 INFO  ProgressMeter - NC_056591.1:13167496             10.7                 87250           8130.1
+01:39:57.081 INFO  ProgressMeter - NC_056591.1:13970892             11.1                 90980           8211.5
+01:40:07.092 INFO  ProgressMeter - NC_056591.1:14719024             11.2                 94990           8446.3
+01:40:17.109 INFO  ProgressMeter - NC_056591.1:15033131             11.4                 97410           8534.8
+01:40:27.141 INFO  ProgressMeter - NC_056591.1:15331165             11.6                 99770           8615.3
+01:40:37.399 INFO  ProgressMeter - NC_056591.1:15552970             11.8                101530           8639.7
+01:40:58.552 INFO  ProgressMeter - NC_056591.1:15824669             12.1                103320           8536.0
+01:41:08.569 INFO  ProgressMeter - NC_056591.1:15933793             12.3                104120           8485.0
+01:41:18.733 INFO  ProgressMeter - NC_056591.1:15965108             12.4                104360           8388.8
+01:41:28.795 INFO  ProgressMeter - NC_056591.1:16000893             12.6                104650           8300.2
+01:41:39.283 INFO  ProgressMeter - NC_056591.1:16060466             12.8                105110           8222.7
+01:42:00.048 INFO  ProgressMeter - NC_056591.1:16101341             13.1                105410           8028.8
+01:42:10.072 INFO  ProgressMeter - NC_056591.1:16421891             13.3                107910           8115.9
+01:42:20.184 INFO  ProgressMeter - NC_056591.1:16676828             13.5                109880           8160.7
+01:42:30.329 INFO  ProgressMeter - NC_056591.1:17000896             13.6                112380           8242.8
+01:42:40.335 INFO  ProgressMeter - NC_056591.1:17239361             13.8                114270           8280.2
+01:43:01.445 INFO  ProgressMeter - NC_056591.1:17395960             14.2                115510           8161.9
+01:43:11.454 INFO  ProgressMeter - NC_056591.1:17638162             14.3                117400           8198.8
+01:43:21.511 INFO  ProgressMeter - NC_056591.1:17837141             14.5                119030           8216.5
+01:43:31.819 INFO  ProgressMeter - NC_056591.1:18083223             14.7                120970           8252.5
+01:43:41.868 INFO  ProgressMeter - NC_056591.1:18372447             14.8                123240           8312.4
+01:43:51.890 INFO  ProgressMeter - NC_056591.1:18606272             15.0                125050           8340.5
+01:44:01.911 INFO  ProgressMeter - NC_056591.1:18936771             15.2                127530           8412.3
+01:44:11.979 INFO  ProgressMeter - NC_056591.1:19447987             15.3                130540           8516.5
+01:44:22.103 INFO  ProgressMeter - NC_056591.1:19625183             15.5                131970           8516.1
+01:44:32.344 INFO  ProgressMeter - NC_056591.1:19669215             15.7                132330           8446.3
+01:44:42.932 INFO  ProgressMeter - NC_056591.1:19707739             15.8                132630           8371.1
+01:44:53.196 INFO  ProgressMeter - NC_056591.1:19754730             16.0                133000           8304.8
+01:45:03.441 INFO  ProgressMeter - NC_056591.1:19817718             16.2                133460           8245.6
+01:45:13.486 INFO  ProgressMeter - NC_056591.1:19859536             16.4                133800           8182.0
+01:45:29.087 INFO  ProgressMeter - NC_056591.1:19910261             16.6                134190           8077.4
+01:45:39.142 INFO  ProgressMeter - NC_056591.1:20205212             16.8                136460           8132.0
+01:45:49.518 INFO  ProgressMeter - NC_056591.1:20450775             17.0                138400           8163.5
+01:45:59.526 INFO  ProgressMeter - NC_056591.1:20663084             17.1                140000           8177.4
+01:46:09.775 INFO  ProgressMeter - NC_056591.1:20960274             17.3                142290           8229.1
+01:46:30.580 INFO  ProgressMeter - NC_056591.1:21117764             17.6                143520           8137.0
+01:46:40.615 INFO  ProgressMeter - NC_056591.1:21380217             17.8                145520           8172.9
+01:46:50.643 INFO  ProgressMeter - NC_056591.1:21840529             18.0                148070           8238.8
+01:47:00.647 INFO  ProgressMeter - NC_056591.1:22035028             18.1                149500           8241.9
+01:47:10.665 INFO  ProgressMeter - NC_056591.1:22332673             18.3                151430           8272.2
+01:47:31.620 INFO  ProgressMeter - NC_056591.1:22622642             18.7                153000           8201.5
+01:47:41.895 INFO  ProgressMeter - NC_056591.1:22694265             18.8                153480           8152.4
+01:47:51.906 INFO  ProgressMeter - NC_056591.1:22723744             19.0                153690           8091.8
+01:48:02.069 INFO  ProgressMeter - NC_056591.1:22745264             19.2                153860           8029.2
+01:48:12.194 INFO  ProgressMeter - NC_056591.1:22777746             19.3                154120           7972.5
+01:48:33.091 INFO  ProgressMeter - NC_056591.1:22801531             19.7                154290           7840.1
+01:48:43.097 INFO  ProgressMeter - NC_056591.1:22974607             19.8                155560           7838.2
+01:48:53.127 INFO  ProgressMeter - NC_056591.1:23204555             20.0                157240           7856.6
+01:49:03.224 INFO  ProgressMeter - NC_056591.1:23798192             20.2                160330           7944.2
+01:49:13.234 INFO  ProgressMeter - NC_056591.1:24025276             20.3                161880           7955.3
+01:49:34.394 INFO  ProgressMeter - NC_056591.1:24396560             20.7                163980           7921.2
+01:49:44.498 INFO  ProgressMeter - NC_056591.1:24680089             20.9                166140           7960.8
+01:49:54.498 INFO  ProgressMeter - NC_056591.1:24929168             21.0                168040           7988.0
+01:50:04.783 INFO  ProgressMeter - NC_056591.1:25190107             21.2                170080           8019.7
+01:50:14.997 INFO  ProgressMeter - NC_056591.1:25416371             21.4                171940           8042.8
+01:50:35.880 INFO  ProgressMeter - NC_056591.1:25572800             21.7                173140           7969.2
+01:50:45.979 INFO  ProgressMeter - NC_056591.1:25748751             21.9                174530           7971.4
+01:50:56.091 INFO  ProgressMeter - NC_056591.1:26134986             22.1                176950           8020.2
+01:51:06.234 INFO  ProgressMeter - NC_056591.1:26306824             22.2                178240           8017.2
+01:51:16.350 INFO  ProgressMeter - NC_056591.1:26511457             22.4                179820           8027.4
+01:51:37.263 INFO  ProgressMeter - NC_056591.1:26610059             22.7                180630           7940.0
+01:51:47.275 INFO  ProgressMeter - NC_056591.1:26709001             22.9                181440           7917.6
+01:51:58.164 INFO  ProgressMeter - NC_056591.1:26734846             23.1                181650           7864.5
+01:52:08.712 INFO  ProgressMeter - NC_056591.1:26777289             23.3                181940           7817.5
+01:52:19.590 INFO  ProgressMeter - NC_056591.1:26798892             23.5                182110           7764.3
+01:52:39.308 INFO  ProgressMeter - NC_056591.1:26840631             23.8                182430           7670.5
+01:52:49.316 INFO  ProgressMeter - NC_056591.1:27140561             24.0                184680           7711.0
+01:52:59.412 INFO  ProgressMeter - NC_056591.1:27319042             24.1                186050           7714.0
+01:53:07.990 INFO  HaplotypeCaller - 260592 read(s) filtered by: MappingQualityReadFilter 
+0 read(s) filtered by: MappingQualityAvailableReadFilter 
+0 read(s) filtered by: MappedReadFilter 
+0 read(s) filtered by: NotSecondaryAlignmentReadFilter 
+329 read(s) filtered by: NotDuplicateReadFilter 
+0 read(s) filtered by: PassesVendorQualityCheckReadFilter 
+0 read(s) filtered by: NonZeroReferenceLengthAlignmentReadFilter 
+0 read(s) filtered by: GoodCigarReadFilter 
+0 read(s) filtered by: WellformedReadFilter 
+260921 total reads filtered out of 887679 reads processed
+01:53:07.990 INFO  ProgressMeter - NC_056591.1:27586821             24.3                187898           7744.7
+01:53:07.990 INFO  ProgressMeter - Traversal complete. Processed 187898 total regions in 24.3 minutes.
+01:53:07.991 WARN  IntelDeflaterFactory - Intel Deflater not supported, using Java.util.zip.Deflater
+01:53:07.993 INFO  PairHMM - Total compute time in PairHMM computeLogLikelihoods() : 443.24503910600004
+01:53:07.993 INFO  SmithWatermanAligner - Total compute time in java Smith-Waterman : 515.63 sec
+01:53:07.994 INFO  HaplotypeCaller - Shutting down engine
+[July 14, 2026 at 1:53:07 AM EDT] org.broadinstitute.hellbender.tools.walkers.haplotypecaller.HaplotypeCaller done. Elapsed time: 24.27 minutes.
+Runtime.totalMemory()=1124073472
