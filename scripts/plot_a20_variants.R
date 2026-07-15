@@ -49,7 +49,7 @@ variant_summary <- data.table(
   category = c("PASS biallelic SNPs", "samples", "red samples", "black samples"),
   value = c(nrow(geno), length(sample_cols), length(red_samples), length(black_samples))
 )
-fwrite(variant_summary, file.path(outdir, "..", "tables", "a20_variant_summary.tsv"), sep = "\t")
+fwrite(variant_summary, file.path(outdir, "..", "tables", "a20_dataset_summary.tsv"), sep = "\t")
 
 window_size <- 100000L
 variant_windows <- geno[, .(n_snps = .N), by = .(CHROM, window_start = ((POS - 1L) %/% window_size) * window_size + 1L)]
@@ -90,6 +90,20 @@ site[is.na(fst_den) | fst_den <= 0, `:=`(fst_num = NA_real_, fst_den = NA_real_)
 site[, window_start := ((POS - 1L) %/% window_size) * window_size + 1L]
 site[, window_end := window_start + window_size - 1L]
 
+site[, red_black_category := fifelse(
+  is.na(red_af) | is.na(black_af),
+  "Missing one color group",
+  fifelse(
+    af_diff >= 0.25,
+    "Higher alternate allele frequency in red",
+    fifelse(
+      af_diff <= -0.25,
+      "Higher alternate allele frequency in black",
+      "Similar red and black allele frequency"
+    )
+  )
+)]
+
 fwrite(site, file.path(outdir, "..", "tables", "a20_site_allele_frequencies.tsv"), sep = "\t")
 
 fst_windows <- site[!is.na(fst_den), .(
@@ -99,6 +113,97 @@ fst_windows <- site[!is.na(fst_den), .(
 ), by = .(CHROM, window_start, window_end)]
 fst_windows[, fst := pmax(fst, 0)]
 fwrite(fst_windows, file.path(outdir, "..", "fst", "a20_windowed_fst_100kb.tsv"), sep = "\t")
+
+variant_categories <- site[, .N, by = red_black_category]
+setnames(variant_categories, c("red_black_category", "N"), c("category", "n_snps"))
+variant_categories[, percent := round(100 * n_snps / nrow(site), 2)]
+variant_categories[, category := factor(category, levels = c(
+  "Higher alternate allele frequency in red",
+  "Higher alternate allele frequency in black",
+  "Similar red and black allele frequency",
+  "Missing one color group"
+))]
+setorder(variant_categories, category)
+fwrite(variant_categories, file.path(outdir, "..", "tables", "a20_red_black_variant_categories.tsv"), sep = "\t")
+fwrite(variant_categories, file.path(outdir, "..", "tables", "a20_variant_summary.tsv"), sep = "\t")
+
+high_window <- fst_windows[which.max(fst)]
+high_window_snps <- site[
+  window_start == high_window$window_start &
+    !is.na(fst_den),
+  .(
+    CHROM, POS, REF, ALT,
+    red_called_alleles, black_called_alleles,
+    red_af, black_af, af_diff, abs_af_diff,
+    window_start, window_end
+  )
+][order(-abs_af_diff)]
+fwrite(high_window_snps, file.path(outdir, "..", "tables", "a20_top_fst_window_informative_snps.tsv"), sep = "\t")
+
+threshold_summary <- rbindlist(lapply(c(0.75, 0.45), function(threshold) {
+  windows <- fst_windows[fst >= threshold]
+  snps <- site[window_start %in% windows$window_start & !is.na(fst_den)]
+  data.table(
+    fst_threshold = threshold,
+    candidate_windows = nrow(windows),
+    informative_snps_in_candidate_windows = nrow(snps),
+    strong_snps_abs_af_diff_ge_0_75 = snps[abs_af_diff >= 0.75, .N]
+  )
+}))
+fwrite(threshold_summary, file.path(outdir, "..", "tables", "a20_fst_threshold_summary.tsv"), sep = "\t")
+
+candidate_windows <- fst_windows[fst >= 0.45]
+candidate_snps <- site[
+  window_start %in% candidate_windows$window_start &
+    !is.na(fst_den) &
+    abs_af_diff >= 0.75,
+  .(
+    CHROM, POS, REF, ALT,
+    red_called_alleles, black_called_alleles,
+    red_af, black_af, af_diff, abs_af_diff,
+    window_start, window_end
+  )
+][order(window_start, POS)]
+
+region_annotations <- data.table(
+  window_start = c(4400001L, 4500001L, 13900001L, 14500001L),
+  candidate_region = c("A20:4.4-4.5 Mb", "A20:4.5-4.6 Mb", "A20:13.9-14.0 Mb", "A20:14.5-14.6 Mb"),
+  nearby_annotation = c(
+    "Within/near LOC109112681, annotated as AT-rich interactive domain-containing protein 1B-like",
+    "Overlaps LOC109112681 and nearby pseudogene-rich sequence",
+    "Near LOC109112719, uncharacterized protein-coding gene, and LOC122148973, cytochrome P450 2J3-like",
+    "Near forkhead box protein Q1-like and F2-like genes; strongest SNP is near pseudogene LOC122149054"
+  ),
+  project_interpretation = c(
+    "Candidate differentiation region with many informative SNPs; possible regulatory or linked variation, not a proven color mutation.",
+    "Adjacent candidate region that may represent the same broader differentiated block as 4.4-4.5 Mb.",
+    "Candidate region with more SNP support than the top 14.5-14.6 Mb peak; gene products are not known from this analysis to be pigmentation genes.",
+    "Highest FST peak, but based on only 3 informative SNPs; strongest marker is NC_056591.1:14557124 T>A."
+  )
+)
+
+candidate_regions <- merge(candidate_windows, region_annotations, by = "window_start", all.x = TRUE)
+setcolorder(candidate_regions, c(
+  "CHROM", "window_start", "window_end", "candidate_region",
+  "n_snps", "mean_abs_af_diff", "fst",
+  "nearby_annotation", "project_interpretation"
+))
+fwrite(candidate_regions, file.path(outdir, "..", "tables", "a20_candidate_regions_fst_ge_0_45.tsv"), sep = "\t")
+
+candidate_snps <- merge(
+  candidate_snps,
+  candidate_regions[, .(window_start, candidate_region, nearby_annotation, project_interpretation)],
+  by = "window_start",
+  all.x = TRUE
+)
+setcolorder(candidate_snps, c(
+  "candidate_region", "CHROM", "POS", "REF", "ALT",
+  "red_called_alleles", "black_called_alleles",
+  "red_af", "black_af", "af_diff", "abs_af_diff",
+  "window_start", "window_end",
+  "nearby_annotation", "project_interpretation"
+))
+fwrite(candidate_snps, file.path(outdir, "..", "tables", "a20_candidate_snps_fst_ge_0_45_abs_af_diff_ge_0_75.tsv"), sep = "\t")
 
 png(file.path(outdir, "a20_snp_density_100kb.png"), width = 1400, height = 700, res = 150)
 print(
@@ -112,9 +217,19 @@ dev.off()
 png(file.path(outdir, "a20_windowed_fst_100kb.png"), width = 1400, height = 700, res = 150)
 print(
   ggplot(fst_windows, aes(window_start / 1e6, fst)) +
+    geom_hline(yintercept = 0.45, linetype = "dashed", color = "#4C78A8", linewidth = 0.4) +
+    geom_hline(yintercept = 0.75, linetype = "dashed", color = "#C44E52", linewidth = 0.4) +
     geom_line(color = "#D55E00", linewidth = 0.4) +
-    geom_point(color = "#D55E00", size = 0.8, alpha = 0.75) +
+    geom_point(aes(color = fst >= 0.45), size = 0.9, alpha = 0.8) +
+    geom_point(data = high_window, aes(window_start / 1e6, fst), color = "#C44E52", size = 2.4) +
+    annotate("text", x = high_window$window_start / 1e6 + 0.55, y = 0.69,
+             label = "Top peak: FST=0.75\n3 informative SNPs\nstrongest: 14,557,124 T>A",
+             hjust = 0, vjust = 0.5, size = 3.2, color = "#333333") +
+    annotate("text", x = 0.25, y = 0.45, label = "FST >= 0.45 candidate windows", hjust = 0, vjust = -0.6, size = 3, color = "#4C78A8") +
+    annotate("text", x = 0.25, y = 0.75, label = "Top-window threshold", hjust = 0, vjust = -0.6, size = 3, color = "#C44E52") +
+    scale_color_manual(values = c(`FALSE` = "#D55E00", `TRUE` = "#C44E52"), guide = "none") +
     labs(x = "Position on A20 (Mb)", y = "Windowed FST", title = "Red vs Black Carp Differentiation Across A20") +
+    coord_cartesian(ylim = c(0, 0.82), clip = "off") +
     theme_minimal(base_size = 12)
 )
 dev.off()
@@ -139,14 +254,56 @@ print(
 )
 dev.off()
 
-png(file.path(outdir, "a20_variant_summary.png"), width = 900, height = 650, res = 150)
+png(file.path(outdir, "a20_variant_summary.png"), width = 1400, height = 760, res = 150)
 print(
-  ggplot(variant_summary[category %in% c("PASS biallelic SNPs", "samples", "red samples", "black samples")],
-         aes(reorder(category, value), value)) +
-    geom_col(fill = "#7A5195") +
+  ggplot(variant_categories[!is.na(category)],
+         aes(category, n_snps, fill = category)) +
+    geom_col(width = 0.72) +
+    geom_text(aes(label = paste0(n_snps, " (", percent, "%)")), hjust = -0.05, size = 3.1) +
     coord_flip() +
-    labs(x = NULL, y = "Count", title = "A20 Red vs Black Variant Dataset Summary") +
+    scale_y_continuous(limits = c(0, 115000), expand = expansion(mult = c(0, 0.02))) +
+    scale_fill_manual(values = c(
+      "Higher alternate allele frequency in red" = "#D55E00",
+      "Higher alternate allele frequency in black" = "#222222",
+      "Similar red and black allele frequency" = "#4C78A8",
+      "Missing one color group" = "#9A9A9A"
+    ), guide = "none") +
+    labs(x = NULL, y = "Number of A20 SNPs", title = "Red vs Black A20 SNP Categories") +
     theme_minimal(base_size = 12)
+)
+dev.off()
+
+threshold_long <- melt(
+  threshold_summary,
+  id.vars = "fst_threshold",
+  measure.vars = c("candidate_windows", "informative_snps_in_candidate_windows", "strong_snps_abs_af_diff_ge_0_75"),
+  variable.name = "metric",
+  value.name = "count"
+)
+threshold_long[, metric := factor(metric, levels = c(
+  "candidate_windows",
+  "informative_snps_in_candidate_windows",
+  "strong_snps_abs_af_diff_ge_0_75"
+), labels = c(
+  "Candidate windows",
+  "Informative SNPs",
+  "Strong SNPs (AF diff >= 0.75)"
+))]
+
+png(file.path(outdir, "a20_fst_threshold_comparison.png"), width = 1300, height = 760, res = 150)
+print(
+  ggplot(threshold_long, aes(factor(fst_threshold), count, fill = metric)) +
+    geom_col(position = position_dodge(width = 0.75), width = 0.68) +
+    geom_text(aes(label = count), position = position_dodge(width = 0.75), vjust = -0.3, size = 3) +
+    scale_fill_manual(values = c("#C44E52", "#4C78A8", "#009E73")) +
+    labs(
+      x = "Window FST threshold",
+      y = "Count",
+      fill = NULL,
+      title = "Candidate SNP Yield at Strict vs Broader FST Thresholds"
+    ) +
+    theme_minimal(base_size = 12) +
+    theme(legend.position = "bottom")
 )
 dev.off()
 

@@ -79,7 +79,7 @@ The reference genome used was the RefSeq *Cyprinus carpio* assembly:
 GCF_018340385.1_ASM1834038v1
 ```
 
-Reference files generated during reproduction:
+Important local reference files:
 
 ```text
 references/carp.fa
@@ -124,13 +124,7 @@ Main tools:
 | VCF filtering/summaries | BCFtools | Filter, index, and summarize VCFs |
 | Plotting | R / tidyverse / ggplot2 | Make A20 summary plots |
 
-Create the environment with:
-
-```bash
-bash scripts/setup_environment.sh
-```
-
-Run commands inside the environment with the portable wrapper:
+Run commands inside the environment with:
 
 ```bash
 bash scripts/run_in_env.sh <command>
@@ -240,6 +234,10 @@ results/gatk_chrA20/tables/a20_site_allele_frequencies.tsv
 results/gatk_chrA20/tables/a20_pca_samples.tsv
 results/gatk_chrA20/tables/a20_snp_density_100kb.tsv
 results/gatk_chrA20/tables/a20_variant_summary.tsv
+results/gatk_chrA20/tables/a20_fst_threshold_summary.tsv
+results/gatk_chrA20/tables/a20_top_fst_window_informative_snps.tsv
+results/gatk_chrA20/tables/a20_candidate_regions_fst_ge_0_45.tsv
+results/gatk_chrA20/tables/a20_candidate_snps_fst_ge_0_45_abs_af_diff_ge_0_75.tsv
 ```
 
 Main figures:
@@ -251,6 +249,7 @@ results/gatk_chrA20/plots/a20_top_af_differences.png
 results/gatk_chrA20/plots/a20_pca_red_black.png
 results/gatk_chrA20/plots/a20_snp_density_100kb.png
 results/gatk_chrA20/plots/a20_variant_summary.png
+results/gatk_chrA20/plots/a20_fst_threshold_comparison.png
 ```
 
 Detailed plot interpretation:
@@ -271,6 +270,12 @@ The A20 analysis found one standout 100 kb window with FST above 0.6:
 This was the strongest candidate red-vs-black differentiated region on
 chromosome A20. However, the window only had 3 informative SNPs contributing to
 the FST calculation, so the signal is interesting but fragile.
+
+The updated FST plot labels this peak directly and includes two visual guide
+thresholds. The strict `FST >= 0.75` threshold captures the single top window,
+while a broader `FST >= 0.45` threshold captures four candidate windows, 95
+informative SNPs, and 16 strong SNPs with `|red allele frequency - black allele
+frequency| >= 0.75`.
 
 The most notable SNP in that region was:
 
@@ -300,12 +305,13 @@ directly hit the coding sequence of this gene.
 
 The most defensible interpretation is:
 
-> Chromosome A20 contains a candidate red-vs-black differentiated region at
-> 14.5-14.6 Mb. The strongest candidate SNP in that region is
+> Chromosome A20 contains several candidate red-vs-black differentiated regions.
+> The strongest peak is at 14.5-14.6 Mb, where the strongest candidate SNP is
 > `NC_056591.1:14557124 T>A`, but the evidence is limited by missing genotype
-> calls and a small number of informative SNPs. The region may tag linked
-> variation near pseudogene-rich sequence and near a forkhead box F2-like gene,
-> but it should not be claimed as a proven pigmentation mutation.
+> calls and a small number of informative SNPs. A broader threshold also points
+> to candidate regions near 4.4-4.6 Mb and 13.9-14.0 Mb. These signals may tag
+> linked variation near color-associated regions, but they should not be claimed
+> as proven pigmentation mutations.
 
 ## Plot-Level Findings
 
@@ -319,6 +325,11 @@ The allele-frequency difference plot supported the FST result because the same
 The top allele-frequency difference plot highlighted individual SNPs with large
 red-vs-black differences, but several of these sites had limited genotype calls.
 This is why window-level and annotation-level interpretation are important.
+
+The updated variant summary plot now separates SNPs into red-higher,
+black-higher, similar, and missing-one-color-group categories. This makes the
+summary figure reflect the red-vs-black research question instead of only
+showing total dataset counts.
 
 The PCA plot did not separate all red samples from all black samples. Some red
 and black fish were close together in PCA space. This suggests that color group

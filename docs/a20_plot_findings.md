@@ -17,6 +17,8 @@ The plots are best interpreted as chromosome-level evidence for genetic differen
 
 This plot shows FST across chromosome A20 using 100 kb genomic windows. FST measures genetic differentiation between groups. In this project, the two groups are red fish and black fish. A low FST value means the red and black groups have similar allele frequencies in that region. A high FST value means allele frequencies differ more strongly between the two color groups.
 
+The updated plot includes two dashed guide lines. The `0.75` line marks the strict top-peak threshold, and the `0.45` line marks a broader candidate-window threshold. The top peak is labeled directly on the plot with its strongest SNP: `NC_056591.1:14557124 T>A`.
+
 The strongest window is:
 
 | Chromosome | Window start | Window end | Informative SNPs | Mean absolute allele-frequency difference | FST |
@@ -36,6 +38,8 @@ Other high-FST windows were:
 | NC_056591.1 / A20 | 4,500,001 | 4,600,000 | 40 | 0.477 |
 
 These are also possible regions of red-vs-black differentiation on A20, and they have more informative SNPs than the top 14.5-14.6 Mb window.
+
+Using a broader FST threshold of `0.45` gives four candidate windows instead of one. Together, those four windows contain 95 informative SNPs for the FST calculation and 16 strong SNPs with `|red allele frequency - black allele frequency| >= 0.75`.
 
 ## Candidate Mutation And Annotation In The FST > 0.6 Window
 
@@ -137,16 +141,64 @@ Regions with unusually low SNP density can occur because of low read depth, repe
 
 **File:** `results/gatk_chrA20/plots/a20_variant_summary.png`
 
-This summary plot reports the main contents of the filtered A20 SNP dataset:
+This plot was updated to make it biologically relevant to the red-vs-black comparison. Instead of only showing the number of samples and total SNPs, it now groups A20 SNPs by whether the alternate allele is more common in red fish, more common in black fish, similar between groups, or missing from one color group.
 
-| Category | Value |
-|---|---:|
-| PASS biallelic SNPs | 109,849 |
-| Samples | 10 |
-| Red samples | 5 |
-| Black samples | 5 |
+| Category | SNPs | Percent |
+|---|---:|---:|
+| Higher alternate allele frequency in red | 11,346 | 10.33 |
+| Higher alternate allele frequency in black | 11,137 | 10.14 |
+| Similar red and black allele frequency | 84,889 | 77.28 |
+| Missing one color group | 2,477 | 2.25 |
 
-This confirms that the plotting dataset contains a substantial number of high-confidence SNPs across chromosome A20 and the intended sample balance of 5 red and 5 black fish.
+Most SNPs are similar between red and black fish, which is expected because the two groups are the same species and share most of their genome. The biologically interesting SNPs are the smaller sets where allele frequencies differ between red and black. This makes the summary plot better aligned with the project question.
+
+The old dataset-count summary is still retained in:
+
+```text
+results/gatk_chrA20/tables/a20_dataset_summary.tsv
+```
+
+The table corresponding to the updated plot is:
+
+```text
+results/gatk_chrA20/tables/a20_variant_summary.tsv
+```
+
+## Figure 7. FST Threshold Comparison
+
+![FST threshold comparison for chromosome A20](../results/gatk_chrA20/plots/a20_fst_threshold_comparison.png)
+
+**File:** `results/gatk_chrA20/plots/a20_fst_threshold_comparison.png`
+
+This plot compares two ways of choosing candidate regions from the FST scan:
+
+| FST threshold | Candidate 100 kb windows | Informative SNPs in candidate windows | Strong SNPs with `|Red AF - Black AF| >= 0.75` |
+|---:|---:|---:|---:|
+| 0.75 | 1 | 3 | 1 |
+| 0.45 | 4 | 95 | 16 |
+
+The strict `0.75` threshold identifies only the highest peak. This is useful because it highlights the most extreme red-vs-black differentiation on A20, but it is fragile because it is based on only 3 informative SNPs.
+
+The broader `0.45` threshold identifies four candidate windows. This is more useful for biological interpretation because it captures regions with more SNP support:
+
+| Candidate region | FST | Informative SNPs | Nearby annotation | Interpretation |
+|---|---:|---:|---|---|
+| A20:4.4-4.5 Mb | 0.497 | 25 | `LOC109112681`, AT-rich interactive domain-containing protein 1B-like | Candidate differentiated block; possible linked or regulatory variation, not a proven color mutation. |
+| A20:4.5-4.6 Mb | 0.477 | 40 | `LOC109112681` and nearby pseudogene-rich sequence | Adjacent to the 4.4-4.5 Mb window, possibly part of the same broader differentiated region. |
+| A20:13.9-14.0 Mb | 0.505 | 27 | `LOC109112719`, uncharacterized protein-coding gene; nearby cytochrome P450 2J3-like | Candidate region with more SNP support than the top peak, but no confirmed pigmentation gene from this analysis alone. |
+| A20:14.5-14.6 Mb | 0.750 | 3 | forkhead box protein Q1-like and F2-like genes nearby; pseudogene `LOC122149054` | Highest peak, strongest SNP `NC_056591.1:14557124 T>A`, but limited by few informative SNPs. |
+
+The candidate SNP table for the broader threshold is:
+
+```text
+results/gatk_chrA20/tables/a20_candidate_snps_fst_ge_0_45_abs_af_diff_ge_0_75.tsv
+```
+
+The candidate region table is:
+
+```text
+results/gatk_chrA20/tables/a20_candidate_regions_fst_ge_0_45.tsv
+```
 
 ## Overall Findings
 
@@ -160,9 +212,8 @@ The chromosome A20 analysis found one standout window with FST above 0.6:
 | Nearby annotation | The candidate SNP is upstream of pseudogene `LOC122149054`; nearby SNPs also fall in a pseudogene-rich region. The protein-coding gene `LOC109045109`, annotated as forkhead box protein F2-like, is in the same 100 kb window but not directly hit by the differentiated SNPs. |
 | PCA result | Red and black fish do not fully separate across all A20 SNPs, suggesting local differentiation rather than chromosome-wide separation. |
 
-The best biological interpretation is that chromosome A20 contains candidate regions where red and black fish differ genetically, especially near 14.5-14.6 Mb. The most notable candidate mutation from the high-FST window is `NC_056591.1:14557124 T>A`, but the evidence is not strong enough to claim it causes red or black coloration. It is better described as a candidate marker near pseudogene-rich sequence and near a forkhead box F2-like gene.
+The best biological interpretation is that chromosome A20 contains candidate regions where red and black fish differ genetically. The strict top signal is near 14.5-14.6 Mb, while the broader `FST >= 0.45` threshold adds candidate regions near 4.4-4.6 Mb and 13.9-14.0 Mb. The most notable candidate mutation from the top high-FST window is `NC_056591.1:14557124 T>A`, but the evidence is not strong enough to claim it causes red or black coloration. It is better described as a candidate marker near pseudogene-rich sequence and near forkhead box gene annotations.
 
 For a final project presentation, the most defensible wording is:
 
-> On chromosome A20, the red and black groups showed a high-FST candidate region at 14.5-14.6 Mb. The strongest SNP in this region was `NC_056591.1:14557124 T>A`, where the alternate allele was observed in the black group but not the red group among called genotypes. This SNP is near pseudogene `LOC122149054` and in the same 100 kb window as a forkhead box F2-like gene. Because the signal is based on only a few informative SNPs and limited genotype calls, it should be interpreted as a candidate red-vs-black differentiation region rather than a confirmed causal pigmentation mutation.
-
+> On chromosome A20, the red and black groups showed several candidate differentiation regions. The strongest FST peak was at 14.5-14.6 Mb, where the strongest SNP was `NC_056591.1:14557124 T>A`. The broader `FST >= 0.45` threshold identified four candidate windows and 16 strong SNPs with large red-vs-black allele-frequency differences. These SNPs may tag regions linked to color-group differences, but because several signals have limited called genotypes and the analysis covers only chromosome A20, they should be interpreted as candidate markers rather than confirmed causal pigmentation mutations.
