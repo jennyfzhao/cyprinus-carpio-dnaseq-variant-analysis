@@ -234,6 +234,54 @@ print(
 )
 dev.off()
 
+combined_windows <- merge(
+  fst_windows,
+  variant_windows[, .(CHROM, window_start, density_snps = n_snps)],
+  by = c("CHROM", "window_start"),
+  all.x = TRUE
+)
+
+png(file.path(outdir, "a20_fst_with_snp_density_100kb.png"), width = 1500, height = 820, res = 150)
+print(
+  ggplot(combined_windows, aes(window_start / 1e6)) +
+    geom_tile(aes(y = -0.035, fill = density_snps), height = 0.055, width = 0.095) +
+    geom_tile(aes(y = 0.895, fill = density_snps), height = 0.055, width = 0.095) +
+    geom_hline(yintercept = 0, color = "#777777", linewidth = 0.25) +
+    geom_hline(yintercept = 0.45, linetype = "dashed", color = "#4C78A8", linewidth = 0.4) +
+    geom_hline(yintercept = 0.75, linetype = "dashed", color = "#C44E52", linewidth = 0.4) +
+    geom_line(aes(y = fst), color = "#D55E00", linewidth = 0.45) +
+    geom_point(aes(y = fst, color = fst >= 0.45), size = 0.9, alpha = 0.8) +
+    geom_point(data = high_window, aes(window_start / 1e6, fst), color = "#C44E52", size = 2.4) +
+    annotate("text", x = high_window$window_start / 1e6 + 0.55, y = 0.69,
+             label = "Top peak: FST=0.75\n3 informative SNPs\nstrongest: 14,557,124 T>A",
+             hjust = 0, vjust = 0.5, size = 3.1, color = "#333333") +
+    annotate("text", x = 0, y = 0.945, label = "SNP density track", hjust = 0, size = 3.1, color = "#4C78A8") +
+    annotate("text", x = 0, y = -0.075, label = "SNP density track", hjust = 0, size = 3.1, color = "#4C78A8") +
+    scale_color_manual(values = c(`FALSE` = "#D55E00", `TRUE` = "#C44E52"), guide = "none") +
+    scale_fill_gradient(
+      low = "#DCE6F2",
+      high = "#2F6FA3",
+      name = "PASS biallelic\nSNPs per 100 kb"
+    ) +
+    scale_y_continuous(
+      name = "Windowed FST",
+      limits = c(-0.09, 0.96),
+      breaks = c(0, 0.2, 0.4, 0.6, 0.8),
+      labels = c("0", "0.2", "0.4", "0.6", "0.8")
+    ) +
+    labs(
+      x = "Position on A20 (Mb)",
+      title = "A20 Red vs Black FST With SNP Density"
+    ) +
+    theme_minimal(base_size = 12) +
+    theme(
+      axis.title.y.left = element_text(color = "#D55E00"),
+      legend.position = "bottom",
+      legend.key.width = grid::unit(1.3, "cm")
+    )
+)
+dev.off()
+
 png(file.path(outdir, "a20_windowed_af_difference_100kb.png"), width = 1400, height = 700, res = 150)
 print(
   ggplot(fst_windows, aes(window_start / 1e6, mean_abs_af_diff)) +

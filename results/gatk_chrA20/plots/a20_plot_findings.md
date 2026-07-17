@@ -89,6 +89,21 @@ The same `14.5-14.6 Mb` region stands out here, with a mean absolute allele-freq
 
 The caution is the same as for the FST plot: the strongest window has only 3 informative SNPs, so it may be sensitive to missing data or genotype uncertainty.
 
+## Figure 2B. Windowed FST With SNP Density
+
+![Windowed FST with SNP density across chromosome A20](a20_fst_with_snp_density_100kb.png)
+
+**File:** `a20_fst_with_snp_density_100kb.png`
+
+This combined plot overlays two pieces of information on the same chromosome A20 coordinate system:
+
+- Orange line and points: windowed FST for red vs black fish.
+- Blue density strips along the top and bottom: number of PASS biallelic SNPs in each 100 kb window. Darker blue means more SNPs in that window.
+
+This plot helps separate two questions that are easy to mix up. SNP density asks how many SNPs were found in a region. FST asks how different red and black fish are in that region. A region can have many SNPs but low FST if red and black have similar allele frequencies. A region can also have few SNPs but high FST if those SNPs differ strongly between groups.
+
+The top FST peak at 14.5-14.6 Mb remains visually obvious, but the density strips show why it should be interpreted carefully: the FST signal is strong but based on only 3 informative SNPs. The broader candidate windows near 4.4-4.6 Mb and 13.9-14.0 Mb have lower FST values but more informative SNP support.
+
 ## Figure 3. Top Individual Allele-Frequency Differences
 
 ![Top allele-frequency differences on chromosome A20](a20_top_af_differences.png)
